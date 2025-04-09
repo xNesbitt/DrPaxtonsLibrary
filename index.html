@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokémon Card Library</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="background-overlay">
+    <div id="background"></div>
+  </div>
+
+  <div class="container">
+    <h1>Pokémon Card Library</h1>
+
+    <form id="cardForm">
+      <input type="text" id="cardName" placeholder="Enter card name (e.g., Pikachu)" required />
+      <button type="submit">Add to Library</button>
+    </form>
+
+    <div id="cardDisplay"></div>
+
+    <h2>Your Library</h2>
+    <div id="libraryDisplay"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
