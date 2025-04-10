@@ -3,7 +3,69 @@ const cardForm = document.getElementById("cardForm");
 const cardDisplay = document.getElementById("cardDisplay");
 const libraryDisplay = document.getElementById("libraryDisplay");
 const background = document.getElementById("background");
-const interval = 3000; // Background change interval
+const interval = 3000;
+const firebaseConfig = {
+  apiKey: "AIzaSyAlKKZ4HerfqyBGDNFm8sKsnyWZ4FJx6-4",
+  authDomain: "pokemon-card-library.firebaseapp.com",
+  databaseURL: "https://pokemon-card-library.firebaseio.com",
+  projectId: "pokemon-card-library",
+  storageBucket: "pokemon-card-library.appspot.com",
+  messagingSenderId: "123456789012",
+  appId: "1:123456789012:web:abcdef123456",
+  measurementId: "G-1ABCDEF2GH"
+};
+
+const app = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const firestore = firebase.firestore();
+
+// Firebase Authentication (Google Sign-In)
+const googleLoginButton = document.getElementById('googleLoginButton');
+
+googleLoginButton.addEventListener('click', () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  
+  // Sign in with popup
+  firebase.auth().signInWithPopup(provider)
+    .then((result) => {
+      const user = result.user;
+      console.log('User logged in: ', user);
+      // Now that the user is logged in, you can fetch the user info and store it
+      renderUserInfo(user);
+    })
+    .catch((error) => {
+      console.error('Error during Google sign-in:', error);
+    });
+});
+
+// Render user info after login
+function renderUserInfo(user) {
+  const userInfoContainer = document.getElementById('userInfo');
+  if (userInfoContainer) {
+    userInfoContainer.innerHTML = `
+      <h2>Welcome, ${user.displayName}</h2>
+      <img src="${user.photoURL}" alt="User Avatar" />
+      <p>Email: ${user.email}</p>
+    `;
+  }
+
+  // Optionally: Save user data in Firestore or localStorage
+  saveUserToFirestore(user);
+}
+
+// Save user data to Firestore (optional)
+function saveUserToFirestore(user) {
+  const userRef = firestore.collection('users').doc(user.uid);
+  userRef.set({
+    name: user.displayName,
+    email: user.email,
+    photoURL: user.photoURL,
+  }).then(() => {
+    console.log("User info saved to Firestore!");
+  }).catch((error) => {
+    console.error("Error saving user data:", error);
+  });
+}
 
 // Handle form submission to search for a Pokémon card
 cardForm.addEventListener("submit", async (e) => {
