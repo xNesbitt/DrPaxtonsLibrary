@@ -23,18 +23,18 @@ const firestore = firebase.firestore();
 const googleLoginButton = document.getElementById('googleLoginButton');
 
 googleLoginButton.addEventListener('click', () => {
+  console.log("✅ Login button clicked"); // 👈 Test log
+
   const provider = new firebase.auth.GoogleAuthProvider();
-  
-  // Sign in with popup
+
   firebase.auth().signInWithPopup(provider)
     .then((result) => {
       const user = result.user;
-      console.log('User logged in: ', user);
-      // Now that the user is logged in, you can fetch the user info and store it
+      console.log('✅ User logged in: ', user);
       renderUserInfo(user);
     })
     .catch((error) => {
-      console.error('Error during Google sign-in:', error);
+      console.error('❌ Error during Google sign-in:', error);
     });
 });
 
