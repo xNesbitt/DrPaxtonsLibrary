@@ -73,3 +73,13 @@ body {
   .card img, .lib-card img {
     width: 80px;
   }
+  /* UX polish */
+button:hover {
+  background-color: #ddd;
+  transition: background-color 0.3s ease;
+}
+
+.card:hover, .lib-card:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}

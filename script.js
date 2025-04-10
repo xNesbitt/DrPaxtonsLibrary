@@ -102,10 +102,19 @@ cardForm.addEventListener("submit", async (e) => {
 // Save a card to the library
 function saveCard(card) {
   const library = JSON.parse(localStorage.getItem("cardLibrary")) || [];
+
+  // Prevent duplicates
+  const exists = library.some(saved => saved.id === card.id);
+  if (exists) {
+    alert("Card is already in your library.");
+    return;
+  }
+
   library.push(card);
   localStorage.setItem("cardLibrary", JSON.stringify(library));
   renderLibrary();
 }
+
 
 // Render the library
 function renderLibrary() {
@@ -127,20 +136,26 @@ function renderLibrary() {
 
 // Set a random Pokémon card as the background
 async function setRandomPokemonBackground() {
-  const res = await fetch("https://api.pokemontcg.io/v2/cards?pageSize=1&random=true", {
-    headers: { "X-Api-Key": API_KEY },
-  });
+  try {
+    const res = await fetch("https://api.pokemontcg.io/v2/cards?pageSize=1&random=true", {
+      headers: { "X-Api-Key": API_KEY },
+    });
 
-  const data = await res.json();
-  const card = data.data[0]; // Get the first random card
-  if (!card || !card.images.large) return;
+    if (!res.ok) throw new Error("API request failed");
 
-  background.style.opacity = "0";
+    const data = await res.json();
+    const card = data.data[0];
+    if (!card || !card.images.large) return;
 
-  setTimeout(() => {
-    background.style.backgroundImage = `url(${card.images.large})`;
-    background.style.opacity = "1";
-  }, 1500);
+    background.style.opacity = "0";
+
+    setTimeout(() => {
+      background.style.backgroundImage = `url(${card.images.large})`;
+      background.style.opacity = "1";
+    }, 1500);
+  } catch (error) {
+    console.error("Background card fetch error:", error);
+  }
 }
 
 // Initialize the app
