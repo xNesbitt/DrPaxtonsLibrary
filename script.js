@@ -39,8 +39,8 @@ googleLoginButton.addEventListener('click', () => {
 });
 document.getElementById('logoutButton').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
-    console.log("✅ User signed out");
-    handleSignOutUI();
+    console.log("✅ User signed out — now reloading the page.");
+    window.location.reload(); // ✅ This refreshes the entire page
   }).catch((error) => {
     console.error("❌ Sign-out error:", error);
   });
