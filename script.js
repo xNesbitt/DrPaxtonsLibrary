@@ -6,13 +6,13 @@ const background = document.getElementById("background");
 const interval = 3000;
 const firebaseConfig = {
   apiKey: "AIzaSyAlKKZ4HerfqyBGDNFm8sKsnyWZ4FJx6-4",
-  authDomain: "pokemon-card-library.firebaseapp.com",
-  databaseURL: "https://pokemon-card-library.firebaseio.com",
-  projectId: "pokemon-card-library",
-  storageBucket: "pokemon-card-library.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef123456",
-  measurementId: "G-1ABCDEF2GH"
+  authDomain: "paxtonslibrary.firebaseapp.com",
+  databaseURL: "https://paxtonslibrary-default-rtdb.firebaseio.com",
+  projectId: "paxtonslibrary",
+  storageBucket: "paxtonslibrary.firebasestorage.app",
+  messagingSenderId: "283184662620",
+  appId: "1:283184662620:web:5a5ea818d63a0e9c6d3e99",
+  measurementId: "G-SMG3QHGCK0"
 };
 
 const app = firebase.initializeApp(firebaseConfig);
