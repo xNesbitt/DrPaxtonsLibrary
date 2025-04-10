@@ -37,6 +37,20 @@ googleLoginButton.addEventListener('click', () => {
       console.error('❌ Error during Google sign-in:', error);
     });
 });
+document.getElementById('logoutButton').addEventListener('click', () => {
+  firebase.auth().signOut().then(() => {
+    console.log("✅ User signed out");
+    handleSignOutUI();
+  }).catch((error) => {
+    console.error("❌ Sign-out error:", error);
+  });
+});
+function handleSignOutUI() {
+  const userInfoContainer = document.getElementById('userInfo');
+  userInfoContainer.innerHTML = "";
+  document.getElementById('googleLoginButton').style.display = "inline-block";
+  document.getElementById('logoutButton').style.display = "none";
+}
 
 // Render user info after login
 function renderUserInfo(user) {
@@ -48,7 +62,8 @@ function renderUserInfo(user) {
       <p>Email: ${user.email}</p>
     `;
   }
-
+  document.getElementById('googleLoginButton').style.display = "none";
+  document.getElementById('logoutButton').style.display = "inline-block";
   // Optionally: Save user data in Firestore or localStorage
   saveUserToFirestore(user);
 }
