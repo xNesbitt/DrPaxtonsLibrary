@@ -64,8 +64,8 @@ function renderUserInfo(user) {
   }
   document.getElementById('googleLoginButton').style.display = "none";
   document.getElementById('logoutButton').style.display = "inline-block";
-  // Optionally: Save user data in Firestore or localStorage
   saveUserToFirestore(user);
+  renderLibrary(); // Load saved cards from Firestore
 }
 
 // Save user data to Firestore (optional)
@@ -115,38 +115,68 @@ cardForm.addEventListener("submit", async (e) => {
 });
 
 // Save a card to the library
-function saveCard(card) {
-  const library = JSON.parse(localStorage.getItem("cardLibrary")) || [];
+async function saveCard(card) {
+  const user = firebase.auth().currentUser;
+  if (!user) return alert("You must be logged in to save cards.");
 
-  // Prevent duplicates
-  const exists = library.some(saved => saved.id === card.id);
-  if (exists) {
-    alert("Card is already in your library.");
+  const cardRef = firestore
+    .collection("users")
+    .doc(user.uid)
+    .collection("cards")
+    .doc(card.id);
+
+  try {
+    const doc = await cardRef.get();
+    if (doc.exists) {
+      alert("Card already exists in your library.");
+      return;
+    }
+
+    await cardRef.set(card);
+    console.log("✅ Card saved to Firestore:", card.name);
+    renderLibrary(); // Refresh display
+  } catch (err) {
+    console.error("❌ Failed to save card:", err);
+  }
+}
+
+// Render the library
+async function renderLibrary() {
+  const user = firebase.auth().currentUser;
+  if (!user) {
+    libraryDisplay.innerHTML = "<p>Please log in to view your library.</p>";
     return;
   }
 
-  library.push(card);
-  localStorage.setItem("cardLibrary", JSON.stringify(library));
-  renderLibrary();
-}
+  const cardsRef = firestore
+    .collection("users")
+    .doc(user.uid)
+    .collection("cards");
 
+  try {
+    const snapshot = await cardsRef.get();
+    if (snapshot.empty) {
+      libraryDisplay.innerHTML = "<p>No cards saved yet.</p>";
+      return;
+    }
 
-// Render the library
-function renderLibrary() {
-  const library = JSON.parse(localStorage.getItem("cardLibrary")) || [];
-  libraryDisplay.innerHTML = library
-    .map(
-      (card) => `
-    <div class="lib-card">
-      <img src="${card.images.small}" />
-      <div>
-        <h4>${card.name}</h4>
-        <p>Set: ${card.set.name}</p>
+    const cards = [];
+    snapshot.forEach(doc => cards.push(doc.data()));
+
+    libraryDisplay.innerHTML = cards.map(card => `
+      <div class="lib-card">
+        <img src="${card.images.small}" />
+        <div>
+          <h4>${card.name}</h4>
+          <p>Set: ${card.set.name}</p>
+        </div>
       </div>
-    </div>
-  `
-    )
-    .join("");
+    `).join("");
+
+  } catch (err) {
+    console.error("❌ Failed to load library:", err);
+    libraryDisplay.innerHTML = "<p>Error loading library.</p>";
+  }
 }
 
 // Set a random Pokémon card as the background
