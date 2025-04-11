@@ -121,3 +121,29 @@ button:hover {
   margin-top: 20px;
   max-width: 500px;
 }
+#loginScreen {
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#googleLoginButton {
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+}
+#loginScreen {
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#googleLoginButton {
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+}

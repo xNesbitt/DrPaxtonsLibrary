@@ -46,6 +46,8 @@ document.getElementById('logoutButton').addEventListener('click', () => {
   });
 });
 function handleSignOutUI() {
+  document.getElementById("loginScreen").style.display = "flex";
+  document.getElementById("app").style.display = "none";
   const userInfoContainer = document.getElementById('userInfo');
   userInfoContainer.innerHTML = "";
   document.getElementById('googleLoginButton').style.display = "inline-block";
@@ -54,6 +56,9 @@ function handleSignOutUI() {
 
 // Render user info after login
 function renderUserInfo(user) {
+document.getElementById("loginScreen").style.display = "none";
+document.getElementById("app").style.display = "block";
+
   const userInfoContainer = document.getElementById('userInfo');
   if (userInfoContainer) {
     userInfoContainer.innerHTML = `
