@@ -252,15 +252,12 @@ document.querySelectorAll(".lib-card").forEach((el) => {
 
 // Initialize the app
 firebase.auth().onAuthStateChanged((user) => {
-  document.documentElement.style.visibility = 'visible';
   if (user) {
     renderUserInfo(user); // ✅ Already triggers renderLibrary()
   } else {
     handleSignOutUI();
-    document.getElementById("background").style.display = "none";
-    document.getElementById("background-overlay").style.display = "none";
-
   }
+  document.documentElement.style.visibility = 'visible';
 });
 
 function showPreview(card) {

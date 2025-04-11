@@ -127,6 +127,7 @@ button:hover {
 }
 #app {
   overflow: hidden;
+  display: none; 
 }
 #background,
 #background-overlay {
