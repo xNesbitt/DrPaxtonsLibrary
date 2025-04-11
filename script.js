@@ -136,12 +136,13 @@ async function saveCard(card) {
       ...card,
       dateAdded: firebase.firestore.FieldValue.serverTimestamp()
     });
-    console.log("✅ Card saved to Firestore:", card.name);
+    console.log("✅ Card saved to Firestore with timestamp:", card.name);
     renderLibrary(); // Refresh display
   } catch (err) {
     console.error("❌ Failed to save card:", err);
   }
 }
+
 async function deleteCard(cardId) {
   const user = firebase.auth().currentUser;
   if (!user) return alert("You must be logged in.");
