@@ -56,8 +56,10 @@ function handleSignOutUI() {
 
 // Render user info after login
 function renderUserInfo(user) {
-document.getElementById("loginScreen").style.display = "none";
-document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  document.getElementById("background-overlay").style.display = "block";
+  document.getElementById("background").style.display = "block";  
 document.getElementById("app").style.display = "block";
 document.getElementById("background").style.display = "block";
 document.getElementById("background-overlay").style.display = "block";

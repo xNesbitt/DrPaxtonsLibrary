@@ -9,6 +9,7 @@ body {
   }
   
   #background-overlay {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -19,6 +20,7 @@ body {
   }
   
   #background {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -150,16 +152,10 @@ button:hover {
   background-color: #eaeaea;
   transform: scale(1.05);
 }
-body {
-  background-color: black; /* Prevent white flash */
-}
 #app {
   overflow: hidden;
 }
 #background,
 #background-overlay {
   display: none;
-}
-body {
-  background-color: black;
 }
