@@ -5,35 +5,8 @@ body {
     color: white;
     background-color: black;
     overflow-x: hidden;
-    position: relative;
-  }
-  
-  #background-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    background-color: rgba(0, 0, 0, 0.3); /* 30% opaque black overlay */
-  }
-  
-  #background {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -3;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: opacity 1.5s ease-in-out;
-    opacity: 0;
-  }
-  
+    position: relative;}
+
   .container {
     position: relative;
     z-index: 1;

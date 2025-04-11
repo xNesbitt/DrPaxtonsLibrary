@@ -1,8 +1,6 @@
 const API_KEY = "5ad8b614-bd03-4554-9bc5-918e09d974f5";
 const cardForm = document.getElementById("cardForm");
 const cardDisplay = document.getElementById("cardDisplay");
-const libraryDisplay = document.getElementById("libraryDisplay");
-const background = document.getElementById("background");
 const interval = 3000;
 const firebaseConfig = {
   apiKey: "AIzaSyAlKKZ4HerfqyBGDNFm8sKsnyWZ4FJx6-4",
@@ -58,12 +56,6 @@ function handleSignOutUI() {
 function renderUserInfo(user) {
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
-  document.getElementById("background-overlay").style.display = "block";
-  document.getElementById("background").style.display = "block";  
-document.getElementById("app").style.display = "block";
-document.getElementById("background").style.display = "block";
-document.getElementById("background-overlay").style.display = "block";
-
 
   const userInfoContainer = document.getElementById('userInfo');
   if (userInfoContainer) {
