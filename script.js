@@ -289,12 +289,53 @@ function showPreview(card) {
 
   previewContent.innerHTML = `
     <h2>${card.name}</h2>
+    
     <p><strong>Rarity:</strong> ${card.rarity || "N/A"}</p>
     <p><strong>Set:</strong> ${card.set?.name || "N/A"}</p>
     <p><strong>Type:</strong> ${card.supertype || "N/A"}</p>
     <p><strong>Subtype:</strong> ${(card.subtypes || []).join(", ") || "N/A"}</p>
     <p><strong>Card #:</strong> ${card.number || "N/A"}</p>
     <p><strong>Market Price:</strong> $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "0.00"}</p>
+    // Destroy previous chart if it exists
+if (window.priceChart) {
+  window.priceChart.destroy();
+}
+
+// Build price data
+const prices = card.cardmarket?.prices;
+if (prices) {
+  const labels = ["30 Days Ago", "7 Days Ago", "Yesterday", "Today"];
+  const data = [
+    prices.avg30 || null,
+    prices.avg7 || null,
+    prices.avg1 || null,
+    prices.trendPrice || prices.averageSellPrice || null
+  ];
+
+  const ctx = document.getElementById("priceChart").getContext("2d");
+  window.priceChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        label: "Market Price ($)",
+        data,
+        borderWidth: 2,
+        tension: 0.3,
+        fill: false,
+        pointRadius: 4,
+        borderColor: "rgba(75, 192, 192, 1)"
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: false
+        }
+      }
+    }
+  });
+}
   `;
 
   previewContainer.style.display = "flex";
