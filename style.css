@@ -114,7 +114,7 @@ button:hover {
   margin-bottom: 10px;
 }
 #priceChart {
-  margin-top: 20px;
+  height: 250px;
   max-width: 500px;
 }
 

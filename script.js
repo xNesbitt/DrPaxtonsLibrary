@@ -300,50 +300,58 @@ function showPreview(card) {
   // 2. Make sure preview is visible
   previewContainer.style.display = "flex";
 
-  // 3. Destroy old chart if any
+  // Ensure canvas exists and is rendered
+setTimeout(() => {
+  const chartEl = document.getElementById("priceChart");
+  if (!chartEl) {
+    console.warn("❌ priceChart canvas not found");
+    return;
+  }
+
   if (window.priceChart) {
     window.priceChart.destroy();
   }
 
-  // 4. Wait a moment for canvas to be visible
-  setTimeout(() => {
-    const prices = card.cardmarket?.prices;
-    if (prices) {
-      const labels = ["30 Days Ago", "7 Days Ago", "Yesterday", "Today"];
-      const data = [
-        prices.avg30 || null,
-        prices.avg7 || null,
-        prices.avg1 || null,
-        prices.trendPrice || prices.averageSellPrice || null
-      ];
+  const prices = card.cardmarket?.prices;
+  if (!prices) {
+    console.warn("❌ No price data found");
+    return;
+  }
 
-      const ctx = document.getElementById("priceChart").getContext("2d");
-      window.priceChart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels,
-          datasets: [{
-            label: "Market Price ($)",
-            data,
-            borderColor: "rgba(75, 192, 192, 1)",
-            borderWidth: 2,
-            pointRadius: 4,
-            fill: false,
-            tension: 0.3
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              beginAtZero: false
-            }
-          }
+  const labels = ["30 Days Ago", "7 Days Ago", "Yesterday", "Today"];
+  const data = [
+    prices.avg30 || null,
+    prices.avg7 || null,
+    prices.avg1 || null,
+    prices.trendPrice || prices.averageSellPrice || null
+  ];
+
+  const ctx = chartEl.getContext("2d");
+  window.priceChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels,
+      datasets: [{
+        label: "Market Price ($)",
+        data,
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 2,
+        pointRadius: 4,
+        fill: false,
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: false
         }
-      });
+      }
     }
-  }, 100); // ← Give DOM time to render
+  });
+}, 150); // Wait for canvas to be painted
 }
 
 document.getElementById("closePreview").addEventListener("click", () => {
