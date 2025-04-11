@@ -326,7 +326,9 @@ setTimeout(() => {
     prices.trendPrice || prices.averageSellPrice || null
   ];
 
-  const ctx = chartEl.getContext("2d");
+  const chartWrapper = document.getElementById("chartWrapper");
+  chartWrapper.innerHTML = `<canvas id="priceChart" height="250"></canvas>`;
+  const ctx = document.getElementById("priceChart").getContext("2d");
   window.priceChart = new Chart(ctx, {
     type: "line",
     data: {
