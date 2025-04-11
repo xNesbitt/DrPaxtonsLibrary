@@ -163,6 +163,18 @@ async function deleteCard(cardId) {
 }
 // Render the library
 async function renderLibrary() {
+
+const rarityFilter = document.getElementById("rarityFilter").value;
+const typeFilter = document.getElementById("typeFilter").value;
+const subtypeFilter = document.getElementById("subtypeFilter").value;
+
+let filteredCards = cards.filter(card => {
+  const matchRarity = !rarityFilter || card.rarity === rarityFilter;
+  const matchType = !typeFilter || card.supertype === typeFilter;
+  const matchSubtype = !subtypeFilter || (card.subtypes || []).includes(subtypeFilter);
+  return matchRarity && matchType && matchSubtype;
+});
+
   const user = firebase.auth().currentUser;
   if (!user) {
     libraryDisplay.innerHTML = "<p>Please log in to view your library.</p>";
@@ -186,7 +198,7 @@ async function renderLibrary() {
 
     const sortOption = document.getElementById("sortOptions").value;
 
-cards.sort((a, b) => {
+filteredCards.sort((a, b) => {
   switch (sortOption) {
     case "name-asc":
       return a.name.localeCompare(b.name);
@@ -213,7 +225,7 @@ cards.sort((a, b) => {
   }
 });
 
-    libraryDisplay.innerHTML = cards.map(card => `
+    libraryDisplay.innerHTML = filteredCards.map(card => `
       <div class="lib-card">
         <img src="${card.images.small}" />
         <div>
@@ -259,3 +271,6 @@ renderLibrary();
 setRandomPokemonBackground();
 setInterval(setRandomPokemonBackground, interval);
 document.getElementById("sortOptions").addEventListener("change", renderLibrary);
+document.getElementById("rarityFilter").addEventListener("change", renderLibrary);
+document.getElementById("typeFilter").addEventListener("change", renderLibrary);
+document.getElementById("subtypeFilter").addEventListener("change", renderLibrary);

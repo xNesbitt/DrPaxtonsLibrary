@@ -29,18 +29,60 @@
     <h2>Your Library</h2>
 
     <label for="sortOptions">Sort by:</label>
-    <select id="sortOptions">
-      <option value="name-asc">Name (A–Z)</option>
-      <option value="name-desc">Name (Z–A)</option>
-      <option value="rarity">Rarity</option>
-      <option value="price-high">Price (High → Low)</option>
-      <option value="price-low">Price (Low → High)</option>
-      <option value="set">Set Name</option>
-      <option value="type">Type</option>
-      <option value="date-desc">Newest First</option>
-      <option value="date-asc">Oldest First</option>
-      <option value="number">Card Number</option>
-    </select>
+<select id="sortOptions">
+  <option value="name-asc">Name (A–Z)</option>
+  <option value="name-desc">Name (Z–A)</option>
+  <option value="rarity">Rarity</option>
+  <option value="price-high">Price (High → Low)</option>
+  <option value="price-low">Price (Low → High)</option>
+  <option value="set">Set Name</option>
+  <option value="type">Type</option>
+  <option value="date-desc">Newest First</option>
+  <option value="date-asc">Oldest First</option>
+  <option value="number">Card Number</option>
+</select>
+
+<label for="rarityFilter">Filter by Rarity:</label>
+<select id="rarityFilter">
+  <option value="">All</option>
+  <option value="Common">Common</option>
+  <option value="Uncommon">Uncommon</option>
+  <option value="Rare">Rare</option>
+  <option value="Rare Holo">Rare Holo</option>
+  <option value="Promo">Promo</option>
+</select>
+
+<label for="typeFilter">Filter by Type:</label>
+<select id="typeFilter">
+  <option value="">All</option>
+  <option value="Pokémon">Pokémon</option>
+  <option value="Trainer">Trainer</option>
+  <option value="Energy">Energy</option>
+</select>
+
+<label for="subtypeFilter">Filter by Subtype:</label>
+<select id="subtypeFilter">
+  <option value="">All</option>
+  <option value="Basic">Basic</option>
+  <option value="Stage 1">Stage 1</option>
+  <option value="Stage 2">Stage 2</option>
+  <option value="V">V</option>
+  <option value="VSTAR">VSTAR</option>
+  <option value="VMAX">VMAX</option>
+  <option value="EX">EX</option>
+</select>
+  <select id="sortOptions">
+    <option value="name-asc">Name (A–Z)</option>
+    <option value="name-desc">Name (Z–A)</option>
+    <option value="rarity">Rarity</option>
+    <option value="price-high">Price (High → Low)</option>
+    <option value="price-low">Price (Low → High)</option>
+    <option value="set">Set Name</option>
+    <option value="type">Type</option>
+    <option value="date-desc">Newest First</option>
+    <option value="date-asc">Oldest First</option>
+    <option value="number">Card Number</option>
+  </select>
 
     <div id="libraryDisplay"></div>
   </div>
