@@ -168,13 +168,6 @@ const rarityFilter = document.getElementById("rarityFilter").value;
 const typeFilter = document.getElementById("typeFilter").value;
 const subtypeFilter = document.getElementById("subtypeFilter").value;
 
-let filteredCards = cards.filter(card => {
-  const matchRarity = !rarityFilter || card.rarity === rarityFilter;
-  const matchType = !typeFilter || card.supertype === typeFilter;
-  const matchSubtype = !subtypeFilter || (card.subtypes || []).includes(subtypeFilter);
-  return matchRarity && matchType && matchSubtype;
-});
-
   const user = firebase.auth().currentUser;
   if (!user) {
     libraryDisplay.innerHTML = "<p>Please log in to view your library.</p>";
@@ -195,6 +188,13 @@ let filteredCards = cards.filter(card => {
 
     const cards = [];
     snapshot.forEach(doc => cards.push(doc.data()));
+
+    let filteredCards = cards.filter(card => {
+      const matchRarity = !rarityFilter || card.rarity === rarityFilter;
+      const matchType = !typeFilter || card.supertype === typeFilter;
+      const matchSubtype = !subtypeFilter || (card.subtypes || []).includes(subtypeFilter);
+      return matchRarity && matchType && matchSubtype;
+    });
 
     const sortOption = document.getElementById("sortOptions").value;
 
