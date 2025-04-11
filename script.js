@@ -267,7 +267,13 @@ async function setRandomPokemonBackground() {
 }
 
 // Initialize the app
-renderLibrary();
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    renderUserInfo(user); // ✅ Already triggers renderLibrary()
+  } else {
+    handleSignOutUI();
+  }
+});
 setRandomPokemonBackground();
 setInterval(setRandomPokemonBackground, interval);
 document.getElementById("sortOptions").addEventListener("change", renderLibrary);
