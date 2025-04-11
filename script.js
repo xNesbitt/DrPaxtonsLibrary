@@ -308,9 +308,9 @@ setTimeout(() => {
     return;
   }
 
-  if (window.priceChart) {
+  if (window.priceChart instanceof Chart) {
     window.priceChart.destroy();
-  }
+  }  
 
   const prices = card.cardmarket?.prices;
   if (!prices) {
