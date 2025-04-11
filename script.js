@@ -227,16 +227,21 @@ filteredCards.sort((a, b) => {
   }
 });
 
-    libraryDisplay.innerHTML = filteredCards.map(card => `
-      <div class="lib-card">
-        <img src="${card.images.small}" />
-        <div>
-          <h4>${card.name}</h4>
-          <p>Set: ${card.set.name}</p>
-          <button onclick="deleteCard('${card.id}')">Remove</button>
-        </div>
-      </div>
-    `).join("");        
+libraryDisplay.innerHTML = filteredCards.map(card => `
+  <div class="lib-card">
+    <img src="${card.images.small}" />
+    <div class="card-info">
+      <h4>${card.name}</h4>
+      <p><strong>Set:</strong> ${card.set?.name || "N/A"}</p>
+      <p><strong>Rarity:</strong> ${card.rarity || "N/A"}</p>
+      <p><strong>Type:</strong> ${card.supertype || "N/A"}</p>
+      <p><strong>Subtype:</strong> ${(card.subtypes || []).join(', ') || "N/A"}</p>
+      <p><strong>Card #:</strong> ${card.number || "N/A"}</p>
+      <p><strong>Market Price:</strong> $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "0.00"}</p>
+      <button onclick="deleteCard('${card.id}')">Remove</button>
+    </div>
+  </div>
+`).join("");       
 
   } catch (err) {
     console.error("❌ Failed to load library:", err);

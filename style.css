@@ -83,3 +83,11 @@ button:hover {
   transform: scale(1.02);
   transition: transform 0.2s ease;
 }
+.card-info {
+  padding: 8px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.card-info p {
+  margin: 4px 0;
+}
