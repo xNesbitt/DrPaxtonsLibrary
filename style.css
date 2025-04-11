@@ -46,7 +46,7 @@ body {
   .card img, .lib-card img {
     width: 80px;
   }
-  /* UX polish */
+
 button:hover {
   background-color: #ddd;
   transition: background-color 0.3s ease;
@@ -130,7 +130,6 @@ button:hover {
 #background-overlay {
   display: none;
 }
-/* Layout */
 body {
   margin: 0;
   font-family: sans-serif;
@@ -163,7 +162,6 @@ body {
   overflow-y: auto;
 }
 
-/* User Profile */
 #userInfo img {
   width: 60px;
   height: 60px;
@@ -171,7 +169,6 @@ body {
   margin-top: 5px;
 }
 
-/* Filters */
 #filters {
   display: flex;
   flex-wrap: wrap;

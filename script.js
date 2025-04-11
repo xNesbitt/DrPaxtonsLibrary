@@ -16,31 +16,29 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-
-// Firebase Authentication (Google Sign-In)
 const googleLoginButton = document.getElementById('googleLoginButton');
 
 googleLoginButton.addEventListener('click', () => {
-  console.log("✅ Login button clicked");
+  console.log("Login button clicked");
   const provider = new firebase.auth.GoogleAuthProvider();
 
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
     return firebase.auth().signInWithPopup(provider);
   }).then((result) => {
     const user = result.user;
-    console.log('✅ User logged in: ', user);
+    console.log('User logged in: ', user);
     renderUserInfo(user);
   }).catch((error) => {
-    console.error('❌ Error during Google sign-in:', error);
+    console.error('Error during Google sign-in:', error);
   });
 });
 
 document.getElementById('logoutButton').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
-    console.log("✅ User signed out — now reloading the page.");
-    window.location.reload(); // ✅ This refreshes the entire page
+    console.log("User signed out — now reloading the page.");
+    window.location.reload();
   }).catch((error) => {
-    console.error("❌ Sign-out error:", error);
+    console.error("Sign-out error:", error);
   });
 });
 function handleSignOutUI() {
@@ -52,7 +50,6 @@ function handleSignOutUI() {
   document.getElementById('logoutButton').style.display = "none";
 }
 
-// Render user info after login
 function renderUserInfo(user) {
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
@@ -71,10 +68,9 @@ function renderUserInfo(user) {
   document.getElementById('googleLoginButton').style.display = "none";
   document.getElementById('logoutButton').style.display = "inline-block";
   saveUserToFirestore(user);
-  renderLibrary(); // Load saved cards from Firestore
+  renderLibrary();
 }
 
-// Save user data to Firestore (optional)
 function saveUserToFirestore(user) {
   const userRef = firestore.collection('users').doc(user.uid);
   userRef.set({
@@ -88,7 +84,6 @@ function saveUserToFirestore(user) {
   });
 }
 
-// Handle form submission to search for a Pokémon card
 cardForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const cardName = document.getElementById("cardName").value.trim();
@@ -99,7 +94,7 @@ cardForm.addEventListener("submit", async (e) => {
   });
 
   const data = await res.json();
-  const card = data.data[0]; // Take the first match
+  const card = data.data[0];
   if (!card) {
     cardDisplay.innerHTML = `<p>No card found.</p>`;
     return;
@@ -120,7 +115,6 @@ cardForm.addEventListener("submit", async (e) => {
   cardDisplay.innerHTML = cardHtml;
 });
 
-// Save a card to the library
 async function saveCard(card) {
   const user = firebase.auth().currentUser;
   if (!user) return alert("You must be logged in to save cards.");
@@ -142,10 +136,10 @@ async function saveCard(card) {
       ...card,
       dateAdded: firebase.firestore.FieldValue.serverTimestamp()
     });
-    console.log("✅ Card saved to Firestore with timestamp:", card.name);
-    renderLibrary(); // Refresh display
+    console.log("Card saved to Firestore with timestamp:", card.name);
+    renderLibrary();
   } catch (err) {
-    console.error("❌ Failed to save card:", err);
+    console.error("Failed to save card:", err);
   }
 }
 
@@ -162,12 +156,12 @@ async function deleteCard(cardId) {
   try {
     await cardRef.delete();
     console.log(`🗑️ Deleted card: ${cardId}`);
-    renderLibrary(); // Refresh the UI
+    renderLibrary();
   } catch (err) {
-    console.error("❌ Failed to delete card:", err);
+    console.error("Failed to delete card:", err);
   }
 }
-// Render the library
+
 async function renderLibrary() {
 
 const rarityFilter = document.getElementById("rarityFilter").value;
@@ -239,7 +233,6 @@ libraryDisplay.innerHTML = filteredCards.map((card, index) => `
   </div>
 `).join("");
 
-// Attach click handlers separately
 document.querySelectorAll(".lib-card").forEach((el) => {
   el.addEventListener("click", () => {
     const index = el.getAttribute("data-index");
@@ -248,12 +241,11 @@ document.querySelectorAll(".lib-card").forEach((el) => {
 });      
 
   } catch (err) {
-    console.error("❌ Failed to load library:", err);
+    console.error("Failed to load library:", err);
     libraryDisplay.innerHTML = "<p>Error loading library.</p>";
   }
 }
 
-// Initialize the app
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     document.getElementById("loginScreen").style.display = "none";
@@ -271,7 +263,6 @@ function showPreview(card) {
   const previewContent = document.getElementById("previewContent");
   const chartWrapper = document.getElementById("chartWrapper");
 
-  // 1. Update image & content
   previewImage.innerHTML = `<img src="${card.images.large || card.images.small}" alt="${card.name}" />`;
   previewContent.innerHTML = `
     <h2>${card.name}</h2>
@@ -283,17 +274,14 @@ function showPreview(card) {
     <p><strong>Market Price:</strong> $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "0.00"}</p>
   `;
 
-  // 2. Show container
   previewContainer.style.display = "flex";
 
-  // 3. Reset chart wrapper with a new canvas
   chartWrapper.innerHTML = `<canvas id="priceChart" height="250"></canvas>`;
 
-  // 4. Defer chart rendering to ensure DOM is updated
   setTimeout(() => {
     const prices = card.cardmarket?.prices;
     if (!prices) {
-      console.warn("❌ No price data found");
+      console.warn("No price data found");
       return;
     }
 
@@ -307,7 +295,6 @@ function showPreview(card) {
 
     const ctx = document.getElementById("priceChart").getContext("2d");
 
-    // Destroy old chart if it exists
     if (window.priceChart instanceof Chart) {
       window.priceChart.destroy();
     }
@@ -336,7 +323,7 @@ function showPreview(card) {
         }
       }
     });
-  }, 100); // Give DOM 100ms to paint canvas
+  }, 100);
 }
 
 document.getElementById("closePreview").addEventListener("click", () => {
@@ -351,7 +338,7 @@ document.getElementById("clearFiltersButton").addEventListener("click", () => {
   document.getElementById("rarityFilter").value = "";
   document.getElementById("typeFilter").value = "";
   document.getElementById("subtypeFilter").value = "";
-  document.getElementById("sortOptions").value = "name-asc"; // optional reset
-  renderLibrary(); // refresh with no filters
+  document.getElementById("sortOptions").value = "name-asc";
+  renderLibrary();
 });
 document.getElementById("searchInput").addEventListener("input", renderLibrary);
