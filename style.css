@@ -136,11 +136,33 @@ button:hover {
 }
 #loginScreen {
   height: 100vh;
+  width: 100vw;
   background-color: black;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
+#googleLoginButton {
+  font-size: 1.6rem;
+  padding: 1rem 2.5rem;
+  border-radius: 8px;
+  background-color: #fff;
+  border: none;
+  color: black;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+#googleLoginButton:hover {
+  background-color: #e5e5e5;
+  transform: scale(1.05);
+}
+
 
 #googleLoginButton {
   font-size: 1.5rem;
