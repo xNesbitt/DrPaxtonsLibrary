@@ -253,11 +253,13 @@ document.querySelectorAll(".lib-card").forEach((el) => {
 // Initialize the app
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    renderUserInfo(user); // ✅ Already triggers renderLibrary()
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+    renderUserInfo(user);
   } else {
-    handleSignOutUI();
+    document.getElementById("loginScreen").style.display = "flex";
+    document.getElementById("app").style.display = "none";
   }
-  document.documentElement.classList.remove('loading');
 });
 
 function showPreview(card) {
