@@ -274,3 +274,10 @@ document.getElementById("sortOptions").addEventListener("change", renderLibrary)
 document.getElementById("rarityFilter").addEventListener("change", renderLibrary);
 document.getElementById("typeFilter").addEventListener("change", renderLibrary);
 document.getElementById("subtypeFilter").addEventListener("change", renderLibrary);
+document.getElementById("clearFiltersButton").addEventListener("click", () => {
+  document.getElementById("rarityFilter").value = "";
+  document.getElementById("typeFilter").value = "";
+  document.getElementById("subtypeFilter").value = "";
+  document.getElementById("sortOptions").value = "name-asc"; // optional reset
+  renderLibrary(); // refresh with no filters
+});
