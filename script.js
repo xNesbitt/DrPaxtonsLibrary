@@ -133,6 +133,7 @@ async function saveCard(card) {
     }
 
     await cardRef.set(card);
+    dateAdded: firebase.firestore.FieldValue.serverTimestamp()
     console.log("✅ Card saved to Firestore:", card.name);
     renderLibrary(); // Refresh display
   } catch (err) {
