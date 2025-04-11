@@ -10,87 +10,90 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+  <!-- LOGIN SCREEN -->
   <div id="loginScreen">
     <button id="googleLoginButton">Login with Google</button>
   </div>
 
+  <!-- MAIN APP UI -->
   <div id="app" style="display: none;">
-    <div id="userInfo"></div>
-    <button id="logoutButton" style="display: none;">Logout</button>
-
     <div id="background-overlay">
       <div id="background"></div>
     </div>
 
     <div class="container">
+      <div id="userInfo"></div>
+      <button id="logoutButton" style="display: none;">Logout</button>
+
       <h1>Pokémon Card Library</h1>
 
-    <form id="cardForm">
-      <input type="text" id="cardName" placeholder="Enter card name (e.g., Pikachu)" required />
-      <button type="submit">Search</button>
-    </form>
+      <form id="cardForm">
+        <input type="text" id="cardName" placeholder="Enter card name (e.g., Pikachu)" required />
+        <button type="submit">Search</button>
+      </form>
 
-    <div id="previewContainer" style="display: none;">
-      <div id="previewImage"></div>
-      <div id="previewDetails">
-        <div id="chartWrapper"></div>
-        <button id="closePreview">Close</button>
-        <div id="previewContent"></div>
-      </div>
-    </div>    
-    <div id="cardDisplay"></div>
+      <div id="previewContainer" style="display: none;">
+        <div id="previewImage"></div>
+        <div id="previewDetails">
+          <div id="chartWrapper"></div>
+          <button id="closePreview">Close</button>
+          <div id="previewContent"></div>
+        </div>
+      </div>    
 
-    <h2>Your Library</h2>
-    <label for="searchInput">Search Cards:</label>
-    <input type="text" id="searchInput" placeholder="Search by name..." />
+      <div id="cardDisplay"></div>
 
-    <label for="sortOptions">Sort by:</label>
-<select id="sortOptions">
-  <option value="name-asc">Name (A–Z)</option>
-  <option value="name-desc">Name (Z–A)</option>
-  <option value="rarity">Rarity</option>
-  <option value="price-high">Price (High → Low)</option>
-  <option value="price-low">Price (Low → High)</option>
-  <option value="set">Set Name</option>
-  <option value="type">Type</option>
-  <option value="date-desc">Newest First</option>
-  <option value="date-asc">Oldest First</option>
-  <option value="number">Card Number</option>
-</select>
+      <h2>Your Library</h2>
+      <label for="searchInput">Search Cards:</label>
+      <input type="text" id="searchInput" placeholder="Search by name..." />
 
-<label for="rarityFilter">Filter by Rarity:</label>
-<select id="rarityFilter">
-  <option value="">All</option>
-  <option value="Common">Common</option>
-  <option value="Uncommon">Uncommon</option>
-  <option value="Rare">Rare</option>
-  <option value="Rare Holo">Rare Holo</option>
-  <option value="Promo">Promo</option>
-</select>
+      <label for="sortOptions">Sort by:</label>
+      <select id="sortOptions">
+        <option value="name-asc">Name (A–Z)</option>
+        <option value="name-desc">Name (Z–A)</option>
+        <option value="rarity">Rarity</option>
+        <option value="price-high">Price (High → Low)</option>
+        <option value="price-low">Price (Low → High)</option>
+        <option value="set">Set Name</option>
+        <option value="type">Type</option>
+        <option value="date-desc">Newest First</option>
+        <option value="date-asc">Oldest First</option>
+        <option value="number">Card Number</option>
+      </select>
 
-<label for="typeFilter">Filter by Type:</label>
-<select id="typeFilter">
-  <option value="">All</option>
-  <option value="Pokémon">Pokémon</option>
-  <option value="Trainer">Trainer</option>
-  <option value="Energy">Energy</option>
-</select>
+      <label for="rarityFilter">Filter by Rarity:</label>
+      <select id="rarityFilter">
+        <option value="">All</option>
+        <option value="Common">Common</option>
+        <option value="Uncommon">Uncommon</option>
+        <option value="Rare">Rare</option>
+        <option value="Rare Holo">Rare Holo</option>
+        <option value="Promo">Promo</option>
+      </select>
 
-<label for="subtypeFilter">Filter by Subtype:</label>
-<select id="subtypeFilter">
-  <option value="">All</option>
-  <option value="Basic">Basic</option>
-  <option value="Stage 1">Stage 1</option>
-  <option value="Stage 2">Stage 2</option>
-  <option value="V">V</option>
-  <option value="VSTAR">VSTAR</option>
-  <option value="VMAX">VMAX</option>
-  <option value="EX">EX</option>
-</select>
-  <button id="clearFiltersButton">Clear Filters</button>
+      <label for="typeFilter">Filter by Type:</label>
+      <select id="typeFilter">
+        <option value="">All</option>
+        <option value="Pokémon">Pokémon</option>
+        <option value="Trainer">Trainer</option>
+        <option value="Energy">Energy</option>
+      </select>
 
+      <label for="subtypeFilter">Filter by Subtype:</label>
+      <select id="subtypeFilter">
+        <option value="">All</option>
+        <option value="Basic">Basic</option>
+        <option value="Stage 1">Stage 1</option>
+        <option value="Stage 2">Stage 2</option>
+        <option value="V">V</option>
+        <option value="VSTAR">VSTAR</option>
+        <option value="VMAX">VMAX</option>
+        <option value="EX">EX</option>
+      </select>
 
-    <div id="libraryDisplay"></div>
+      <button id="clearFiltersButton">Clear Filters</button>
+      <div id="libraryDisplay"></div>
+    </div>
   </div>
 
   <script src="script.js"></script>
