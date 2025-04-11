@@ -252,6 +252,7 @@ document.querySelectorAll(".lib-card").forEach((el) => {
 
 // Initialize the app
 firebase.auth().onAuthStateChanged((user) => {
+  document.documentElement.style.visibility = 'visible';
   if (user) {
     renderUserInfo(user); // ✅ Already triggers renderLibrary()
   } else {
