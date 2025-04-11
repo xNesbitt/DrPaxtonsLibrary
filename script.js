@@ -57,7 +57,11 @@ function handleSignOutUI() {
 // Render user info after login
 function renderUserInfo(user) {
 document.getElementById("loginScreen").style.display = "none";
+document.getElementById("loginScreen").style.display = "none";
 document.getElementById("app").style.display = "block";
+document.getElementById("background").style.display = "block";
+document.getElementById("background-overlay").style.display = "block";
+
 
   const userInfoContainer = document.getElementById('userInfo');
   if (userInfoContainer) {
@@ -258,6 +262,9 @@ firebase.auth().onAuthStateChanged((user) => {
     renderUserInfo(user); // ✅ Already triggers renderLibrary()
   } else {
     handleSignOutUI();
+    document.getElementById("background").style.display = "none";
+    document.getElementById("background-overlay").style.display = "none";
+
   }
 });
 

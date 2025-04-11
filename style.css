@@ -156,3 +156,10 @@ body {
 #app {
   overflow: hidden;
 }
+#background,
+#background-overlay {
+  display: none;
+}
+body {
+  background-color: black;
+}
