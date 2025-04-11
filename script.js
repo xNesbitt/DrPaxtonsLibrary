@@ -138,6 +138,24 @@ async function saveCard(card) {
   } catch (err) {
     console.error("❌ Failed to save card:", err);
   }
+  async function deleteCard(cardId) {
+    const user = firebase.auth().currentUser;
+    if (!user) return alert("You must be logged in.");
+  
+    const cardRef = firestore
+      .collection("users")
+      .doc(user.uid)
+      .collection("cards")
+      .doc(cardId);
+  
+    try {
+      await cardRef.delete();
+      console.log(`🗑️ Deleted card: ${cardId}`);
+      renderLibrary(); // Refresh the UI
+    } catch (err) {
+      console.error("❌ Failed to delete card:", err);
+    }
+  }
 }
 
 // Render the library
@@ -169,9 +187,10 @@ async function renderLibrary() {
         <div>
           <h4>${card.name}</h4>
           <p>Set: ${card.set.name}</p>
+          <button onclick="deleteCard('${card.id}')">Remove</button>
         </div>
       </div>
-    `).join("");
+    `).join("");        
 
   } catch (err) {
     console.error("❌ Failed to load library:", err);
