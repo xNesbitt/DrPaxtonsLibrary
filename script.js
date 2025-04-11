@@ -285,8 +285,8 @@ function showPreview(card) {
   const previewImage = document.getElementById("previewImage");
   const previewContent = document.getElementById("previewContent");
 
+  // 1. Update DOM content
   previewImage.innerHTML = `<img src="${card.images.large || card.images.small}" alt="${card.name}" />`;
-
   previewContent.innerHTML = `
     <h2>${card.name}</h2>
     <p><strong>Rarity:</strong> ${card.rarity || "N/A"}</p>
@@ -297,47 +297,53 @@ function showPreview(card) {
     <p><strong>Market Price:</strong> $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "0.00"}</p>
   `;
 
-  // DESTROY old chart if exists
+  // 2. Make sure preview is visible
+  previewContainer.style.display = "flex";
+
+  // 3. Destroy old chart if any
   if (window.priceChart) {
     window.priceChart.destroy();
   }
 
-  const prices = card.cardmarket?.prices;
-  if (prices) {
-    const labels = ["30 Days Ago", "7 Days Ago", "Yesterday", "Today"];
-    const data = [
-      prices.avg30 || null,
-      prices.avg7 || null,
-      prices.avg1 || null,
-      prices.trendPrice || prices.averageSellPrice || null
-    ];
+  // 4. Wait a moment for canvas to be visible
+  setTimeout(() => {
+    const prices = card.cardmarket?.prices;
+    if (prices) {
+      const labels = ["30 Days Ago", "7 Days Ago", "Yesterday", "Today"];
+      const data = [
+        prices.avg30 || null,
+        prices.avg7 || null,
+        prices.avg1 || null,
+        prices.trendPrice || prices.averageSellPrice || null
+      ];
 
-    const ctx = document.getElementById("priceChart").getContext("2d");
-    window.priceChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels,
-        datasets: [{
-          label: "Market Price ($)",
-          data,
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 2,
-          pointRadius: 4,
-          fill: false,
-          tension: 0.3
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: false
+      const ctx = document.getElementById("priceChart").getContext("2d");
+      window.priceChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels,
+          datasets: [{
+            label: "Market Price ($)",
+            data,
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 2,
+            pointRadius: 4,
+            fill: false,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: false
+            }
           }
         }
-      }
-    });
-  }
-
-  previewContainer.style.display = "flex";
+      });
+    }
+  }, 100); // ← Give DOM time to render
 }
 
 document.getElementById("closePreview").addEventListener("click", () => {
