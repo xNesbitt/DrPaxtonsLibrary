@@ -1,12 +1,10 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
-    background-color: black;
-    overflow-x: hidden;
-    position: relative;}
-
+  margin: 0;
+  padding: 0;
+  background: black;
+  color: white;
+  font-family: sans-serif;
+}
   .container {
     position: relative;
     z-index: 1;
@@ -104,21 +102,20 @@ button:hover {
   justify-content: center;
   align-items: center;
   position: fixed;
-  z-index: 999;
   top: 0;
   left: 0;
+  z-index: 999;
 }
 
 #googleLoginButton {
   font-size: 1.6rem;
   padding: 1rem 2.5rem;
   border-radius: 8px;
-  background-color: #ffffff;
-  border: none;
+  background-color: white;
   color: black;
+  border: none;
   font-weight: bold;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 #googleLoginButton:hover {

@@ -19,13 +19,13 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <div id="loginScreen">
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen" style="display: flex;">
     <button id="googleLoginButton">Login with Google</button>
   </div>
-  
-  <div id="app" style="display: none;">
-  
 
+  <!-- MAIN APP UI -->
+  <div id="app" style="display: none;">
     <div class="container">
       <div id="userInfo"></div>
       <button id="logoutButton" style="display: none;">Logout</button>
@@ -44,11 +44,12 @@
           <button id="closePreview">Close</button>
           <div id="previewContent"></div>
         </div>
-      </div>    
+      </div>
 
       <div id="cardDisplay"></div>
 
       <h2>Your Library</h2>
+
       <label for="searchInput">Search Cards:</label>
       <input type="text" id="searchInput" placeholder="Search by name..." />
 
