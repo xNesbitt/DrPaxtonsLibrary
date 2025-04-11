@@ -91,3 +91,25 @@ button:hover {
 .card-info p {
   margin: 4px 0;
 }
+#previewContainer {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  color: black;
+}
+
+#previewImage img {
+  max-width: 250px;
+  border-radius: 10px;
+}
+
+#previewDetails {
+  flex: 1;
+}
+
+#previewDetails button {
+  margin-bottom: 10px;
+}

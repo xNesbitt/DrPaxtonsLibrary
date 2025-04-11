@@ -228,20 +228,10 @@ filteredCards.sort((a, b) => {
 });
 
 libraryDisplay.innerHTML = filteredCards.map(card => `
-  <div class="lib-card">
+  <div class="lib-card" onclick='showPreview(${JSON.stringify(card).replace(/'/g, "&apos;")})'>
     <img src="${card.images.small}" />
-    <div class="card-info">
-      <h4>${card.name}</h4>
-      <p><strong>Set:</strong> ${card.set?.name || "N/A"}</p>
-      <p><strong>Rarity:</strong> ${card.rarity || "N/A"}</p>
-      <p><strong>Type:</strong> ${card.supertype || "N/A"}</p>
-      <p><strong>Subtype:</strong> ${(card.subtypes || []).join(', ') || "N/A"}</p>
-      <p><strong>Card #:</strong> ${card.number || "N/A"}</p>
-      <p><strong>Market Price:</strong> $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "0.00"}</p>
-      <button onclick="deleteCard('${card.id}')">Remove</button>
-    </div>
   </div>
-`).join("");       
+`).join("");      
 
   } catch (err) {
     console.error("❌ Failed to load library:", err);
@@ -281,6 +271,31 @@ firebase.auth().onAuthStateChanged((user) => {
     handleSignOutUI();
   }
 });
+
+function showPreview(card) {
+  const previewContainer = document.getElementById("previewContainer");
+  const previewImage = document.getElementById("previewImage");
+  const previewContent = document.getElementById("previewContent");
+
+  previewImage.innerHTML = `<img src="${card.images.large || card.images.small}" alt="${card.name}" />`;
+
+  previewContent.innerHTML = `
+    <h2>${card.name}</h2>
+    <p><strong>Rarity:</strong> ${card.rarity || "N/A"}</p>
+    <p><strong>Set:</strong> ${card.set?.name || "N/A"}</p>
+    <p><strong>Type:</strong> ${card.supertype || "N/A"}</p>
+    <p><strong>Subtype:</strong> ${(card.subtypes || []).join(", ") || "N/A"}</p>
+    <p><strong>Card #:</strong> ${card.number || "N/A"}</p>
+    <p><strong>Market Price:</strong> $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "0.00"}</p>
+  `;
+
+  previewContainer.style.display = "flex";
+}
+
+document.getElementById("closePreview").addEventListener("click", () => {
+  document.getElementById("previewContainer").style.display = "none";
+});
+
 setRandomPokemonBackground();
 setInterval(setRandomPokemonBackground, interval);
 document.getElementById("sortOptions").addEventListener("change", renderLibrary);
