@@ -227,11 +227,19 @@ filteredCards.sort((a, b) => {
   }
 });
 
-libraryDisplay.innerHTML = filteredCards.map(card => `
-  <div class="lib-card" onclick='showPreview(${JSON.stringify(card).replace(/'/g, "&apos;")})'>
+libraryDisplay.innerHTML = filteredCards.map((card, index) => `
+  <div class="lib-card" data-index="${index}">
     <img src="${card.images.small}" />
   </div>
-`).join("");      
+`).join("");
+
+// Attach click handlers separately
+document.querySelectorAll(".lib-card").forEach((el) => {
+  el.addEventListener("click", () => {
+    const index = el.getAttribute("data-index");
+    showPreview(filteredCards[index]);
+  });
+});      
 
   } catch (err) {
     console.error("❌ Failed to load library:", err);
