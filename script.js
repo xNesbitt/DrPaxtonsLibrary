@@ -257,7 +257,7 @@ firebase.auth().onAuthStateChanged((user) => {
   } else {
     handleSignOutUI();
   }
-  document.documentElement.style.visibility = 'visible';
+  document.documentElement.classList.remove('loading');
 });
 
 function showPreview(card) {
