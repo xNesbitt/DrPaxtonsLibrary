@@ -284,8 +284,9 @@ function showPreview(card) {
   const previewContainer = document.getElementById("previewContainer");
   const previewImage = document.getElementById("previewImage");
   const previewContent = document.getElementById("previewContent");
+  const chartWrapper = document.getElementById("chartWrapper");
 
-  // 1. Update DOM content
+  // 1. Update image & content
   previewImage.innerHTML = `<img src="${card.images.large || card.images.small}" alt="${card.name}" />`;
   previewContent.innerHTML = `
     <h2>${card.name}</h2>
@@ -297,63 +298,60 @@ function showPreview(card) {
     <p><strong>Market Price:</strong> $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "0.00"}</p>
   `;
 
-  // 2. Make sure preview is visible
+  // 2. Show container
   previewContainer.style.display = "flex";
 
-  // Ensure canvas exists and is rendered
-setTimeout(() => {
-  const chartEl = document.getElementById("priceChart");
-  if (!chartEl) {
-    console.warn("❌ priceChart canvas not found");
-    return;
-  }
-
-  if (window.priceChart instanceof Chart) {
-    window.priceChart.destroy();
-  }  
-
-  const prices = card.cardmarket?.prices;
-  if (!prices) {
-    console.warn("❌ No price data found");
-    return;
-  }
-
-  const labels = ["30 Days Ago", "7 Days Ago", "Yesterday", "Today"];
-  const data = [
-    prices.avg30 || null,
-    prices.avg7 || null,
-    prices.avg1 || null,
-    prices.trendPrice || prices.averageSellPrice || null
-  ];
-
-  const chartWrapper = document.getElementById("chartWrapper");
+  // 3. Reset chart wrapper with a new canvas
   chartWrapper.innerHTML = `<canvas id="priceChart" height="250"></canvas>`;
-  const ctx = document.getElementById("priceChart").getContext("2d");
-  window.priceChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels,
-      datasets: [{
-        label: "Market Price ($)",
-        data,
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 2,
-        pointRadius: 4,
-        fill: false,
-        tension: 0.3
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: false
+
+  // 4. Defer chart rendering to ensure DOM is updated
+  setTimeout(() => {
+    const prices = card.cardmarket?.prices;
+    if (!prices) {
+      console.warn("❌ No price data found");
+      return;
+    }
+
+    const labels = ["30 Days Ago", "7 Days Ago", "Yesterday", "Today"];
+    const data = [
+      prices.avg30 || null,
+      prices.avg7 || null,
+      prices.avg1 || null,
+      prices.trendPrice || prices.averageSellPrice || null
+    ];
+
+    const ctx = document.getElementById("priceChart").getContext("2d");
+
+    // Destroy old chart if it exists
+    if (window.priceChart instanceof Chart) {
+      window.priceChart.destroy();
+    }
+
+    window.priceChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [{
+          label: "Market Price ($)",
+          data,
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 2,
+          pointRadius: 4,
+          fill: false,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: false
+          }
         }
       }
-    }
-  });
-}, 150); // Wait for canvas to be painted
+    });
+  }, 100); // Give DOM 100ms to paint canvas
 }
 
 document.getElementById("closePreview").addEventListener("click", () => {
