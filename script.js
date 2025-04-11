@@ -57,6 +57,9 @@ function renderUserInfo(user) {
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
 
+  document.getElementById("displayName").textContent = user.displayName || "Trainer";
+  document.getElementById("photoURL").src = user.photoURL || "";
+
   const userInfoContainer = document.getElementById('userInfo');
   if (userInfoContainer) {
     userInfoContainer.innerHTML = `
