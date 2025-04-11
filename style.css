@@ -150,3 +150,9 @@ button:hover {
   background-color: #eaeaea;
   transform: scale(1.05);
 }
+body {
+  background-color: black; /* Prevent white flash */
+}
+#app {
+  overflow: hidden;
+}

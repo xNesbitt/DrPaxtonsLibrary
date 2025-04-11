@@ -252,30 +252,6 @@ document.querySelectorAll(".lib-card").forEach((el) => {
   }
 }
 
-// Set a random Pokémon card as the background
-async function setRandomPokemonBackground() {
-  try {
-    const res = await fetch("https://api.pokemontcg.io/v2/cards?pageSize=1&random=true", {
-      headers: { "X-Api-Key": API_KEY },
-    });
-
-    if (!res.ok) throw new Error("API request failed");
-
-    const data = await res.json();
-    const card = data.data[0];
-    if (!card || !card.images.large) return;
-
-    background.style.opacity = "0";
-
-    setTimeout(() => {
-      background.style.backgroundImage = `url(${card.images.large})`;
-      background.style.opacity = "1";
-    }, 1500);
-  } catch (error) {
-    console.error("Background card fetch error:", error);
-  }
-}
-
 // Initialize the app
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
@@ -363,8 +339,6 @@ document.getElementById("closePreview").addEventListener("click", () => {
   document.getElementById("previewContainer").style.display = "none";
 });
 
-setRandomPokemonBackground();
-setInterval(setRandomPokemonBackground, interval);
 document.getElementById("sortOptions").addEventListener("change", renderLibrary);
 document.getElementById("rarityFilter").addEventListener("change", renderLibrary);
 document.getElementById("typeFilter").addEventListener("change", renderLibrary);
