@@ -167,6 +167,7 @@ async function renderLibrary() {
 const rarityFilter = document.getElementById("rarityFilter").value;
 const typeFilter = document.getElementById("typeFilter").value;
 const subtypeFilter = document.getElementById("subtypeFilter").value;
+const searchTerm = document.getElementById("searchInput").value.toLowerCase();
 
   const user = firebase.auth().currentUser;
   if (!user) {
@@ -193,7 +194,8 @@ const subtypeFilter = document.getElementById("subtypeFilter").value;
       const matchRarity = !rarityFilter || card.rarity === rarityFilter;
       const matchType = !typeFilter || card.supertype === typeFilter;
       const matchSubtype = !subtypeFilter || (card.subtypes || []).includes(subtypeFilter);
-      return matchRarity && matchType && matchSubtype;
+      const matchSearch = !searchTerm || card.name.toLowerCase().includes(searchTerm);
+      return matchRarity && matchType && matchSubtype && matchSearch;
     });
 
     const sortOption = document.getElementById("sortOptions").value;
@@ -287,3 +289,4 @@ document.getElementById("clearFiltersButton").addEventListener("click", () => {
   document.getElementById("sortOptions").value = "name-asc"; // optional reset
   renderLibrary(); // refresh with no filters
 });
+document.getElementById("searchInput").addEventListener("input", renderLibrary);
