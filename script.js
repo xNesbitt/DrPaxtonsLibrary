@@ -184,6 +184,35 @@ async function renderLibrary() {
     const cards = [];
     snapshot.forEach(doc => cards.push(doc.data()));
 
+    const sortOption = document.getElementById("sortOptions").value;
+
+cards.sort((a, b) => {
+  switch (sortOption) {
+    case "name-asc":
+      return a.name.localeCompare(b.name);
+    case "name-desc":
+      return b.name.localeCompare(a.name);
+    case "rarity":
+      return (a.rarity || "").localeCompare(b.rarity || "");
+    case "price-high":
+      return (b.cardmarket?.prices?.averageSellPrice || 0) - (a.cardmarket?.prices?.averageSellPrice || 0);
+    case "price-low":
+      return (a.cardmarket?.prices?.averageSellPrice || 0) - (b.cardmarket?.prices?.averageSellPrice || 0);
+    case "set":
+      return (a.set?.name || "").localeCompare(b.set?.name || "");
+    case "type":
+      return (a.supertype || "").localeCompare(b.supertype || "");
+    case "date-desc":
+      return (b.dateAdded?.seconds || 0) - (a.dateAdded?.seconds || 0);
+    case "date-asc":
+      return (a.dateAdded?.seconds || 0) - (b.dateAdded?.seconds || 0);
+    case "number":
+      return parseInt(a.number) - parseInt(b.number);
+    default:
+      return 0;
+  }
+});
+
     libraryDisplay.innerHTML = cards.map(card => `
       <div class="lib-card">
         <img src="${card.images.small}" />
@@ -229,3 +258,4 @@ async function setRandomPokemonBackground() {
 renderLibrary();
 setRandomPokemonBackground();
 setInterval(setRandomPokemonBackground, interval);
+document.getElementById("sortOptions").addEventListener("change", renderLibrary);
