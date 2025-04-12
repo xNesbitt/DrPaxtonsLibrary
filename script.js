@@ -1,3 +1,4 @@
+// Calls for Firebase, Pokemon TCG API, and others.
 const API_KEY = "5ad8b614-bd03-4554-9bc5-918e09d974f5";
 const cardForm = document.getElementById("cardForm");
 const cardDisplay = document.getElementById("cardDisplay");
@@ -12,11 +13,13 @@ const firebaseConfig = {
   appId: "1:283184662620:web:5a5ea818d63a0e9c6d3e99",
   measurementId: "G-SMG3QHGCK0"};
 
+// Firebase initialization
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const googleLoginButton = document.getElementById('googleLoginButton');
 
+// Google Login
 googleLoginButton.addEventListener('click', () => {
   console.log("Login button clicked");
   const provider = new firebase.auth.GoogleAuthProvider();
@@ -30,6 +33,7 @@ googleLoginButton.addEventListener('click', () => {
   }).catch((error) => {
     console.error('Error during Google sign-in:', error);});});
 
+// Logout 
 document.getElementById('logoutButton').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
     console.log("User signed out — now reloading the page.");
@@ -37,7 +41,8 @@ document.getElementById('logoutButton').addEventListener('click', () => {
   }).catch((error) => {
     console.error("Sign-out error:", error);});});
 
-    function handleSignOutUI() {
+// Handles logout
+function handleSignOutUI() {
   document.getElementById("loginScreen").style.display = "flex";
   document.getElementById("app").style.display = "none";
   const userInfoContainer = document.getElementById('userInfo');
@@ -45,6 +50,7 @@ document.getElementById('logoutButton').addEventListener('click', () => {
   document.getElementById('googleLoginButton').style.display = "inline-block";
   document.getElementById('logoutButton').style.display = "none";}
 
+// Renders user info
 function renderUserInfo(user) {
   document.getElementById("loginScreen").style.display = "none";
   document.getElementById("app").style.display = "block";
@@ -52,18 +58,20 @@ function renderUserInfo(user) {
   document.getElementById("displayName").textContent = user.displayName || "Trainer";
   document.getElementById("photoURL").src = user.photoURL || "";
 
+// Displays user info
   const userInfoContainer = document.getElementById('userInfo');
   if (userInfoContainer) {
     userInfoContainer.innerHTML = `
       <h2>Welcome, ${user.displayName}</h2>
       <img src="${user.photoURL}" alt="User Avatar" />
       <p>Email: ${user.email}</p>`;}
-
+// Toggles buttons
   document.getElementById('googleLoginButton').style.display = "none";
   document.getElementById('logoutButton').style.display = "inline-block";
   saveUserToFirestore(user);
   renderLibrary();}
 
+// Store user info in Firestore
 function saveUserToFirestore(user) {
   const userRef = firestore.collection('users').doc(user.uid);
   userRef.set({
@@ -75,6 +83,7 @@ function saveUserToFirestore(user) {
   }).catch((error) => {
     console.error("Error saving user data:", error);});}
 
+// Handles poke card search
 cardForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const cardName = document.getElementById("cardName").value.trim();
@@ -89,6 +98,7 @@ cardForm.addEventListener("submit", async (e) => {
     cardDisplay.innerHTML = `<p>No card found.</p>`;
     return;}
 
+// Renders card    
   const cardHtml = `
     <div class="card">
       <img src="${card.images.small}" />
@@ -102,6 +112,7 @@ cardForm.addEventListener("submit", async (e) => {
 
   cardDisplay.innerHTML = cardHtml;});
 
+// Saves card to user's firestore
 async function saveCard(card) {
   const user = firebase.auth().currentUser;
   if (!user) return alert("You must be logged in to save cards.");
@@ -128,6 +139,7 @@ async function saveCard(card) {
   } catch (err) {
     console.error("Failed to save card:", err);}}
 
+// Delete card function
 async function deleteCard(cardId) {
   const user = firebase.auth().currentUser;
   if (!user) return alert("You must be logged in.");
@@ -147,6 +159,7 @@ async function deleteCard(cardId) {
 
 async function renderLibrary() {
 
+// Renders saved cards with filters and such
 const rarityFilter = document.getElementById("rarityFilter").value;
 const typeFilter = document.getElementById("typeFilter").value;
 const subtypeFilter = document.getElementById("subtypeFilter").value;
@@ -205,12 +218,14 @@ filteredCards.sort((a, b) => {
     default:
       return 0;}});
 
+// Renders the library
 libraryDisplay.innerHTML = filteredCards.map((card, index) => `
   <div class="lib-card" data-index="${index}">
     <img src="${card.images.small}" />
   </div>
 `).join("");
 
+// Enables preview of card
 document.querySelectorAll(".lib-card").forEach((el) => {
   el.addEventListener("click", () => {
     const index = el.getAttribute("data-index");
@@ -220,6 +235,7 @@ document.querySelectorAll(".lib-card").forEach((el) => {
     console.error("Failed to load library:", err);
     libraryDisplay.innerHTML = "<p>Error loading library.</p>";}}
 
+// Monitors auth state
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     document.getElementById("loginScreen").style.display = "none";
@@ -229,6 +245,7 @@ firebase.auth().onAuthStateChanged((user) => {
     document.getElementById("loginScreen").style.display = "flex";
     document.getElementById("app").style.display = "none";}});
 
+// Shows card preview and chart
 function showPreview(card) {
   const previewContainer = document.getElementById("previewContainer");
   const previewImage = document.getElementById("previewImage");
@@ -247,6 +264,7 @@ function showPreview(card) {
 
   previewContainer.style.display = "flex";
 
+  // Creates price chart
   chartWrapper.innerHTML = `<canvas id="priceChart" height="250"></canvas>`;
 
   setTimeout(() => {
@@ -287,6 +305,7 @@ function showPreview(card) {
           y: {
             beginAtZero: false}}}});}, 100);}
 
+// Various event listeners
 document.getElementById("closePreview").addEventListener("click", () => {
   document.getElementById("previewContainer").style.display = "none";
 });
