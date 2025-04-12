@@ -3,8 +3,7 @@ body {
   padding: 0;
   background: black;
   color: white;
-  font-family: sans-serif;
-}
+  font-family: sans-serif;}
 
   .container {
     position: relative;
@@ -15,24 +14,20 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    color: black;
-  }
+    color: black;}
   
   form {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
-  }
+    margin-bottom: 20px;}
   
   input {
     flex: 1;
-    padding: 10px;
-  }
+    padding: 10px;}
   
   button {
     padding: 10px 20px;
-    cursor: pointer;
-  }
+    cursor: pointer;}
   
   .card, .lib-card {
     display: flex;
@@ -41,30 +36,27 @@ body {
     background: #e6f7ff;
     padding: 10px;
     margin: 10px 0;
-    border-radius: 8px;
-  }
+    border-radius: 8px;}
   
   .card img, .lib-card img {
-    width: 80px;
-  }
+    width: 80px;}
 
 button:hover {
   background-color: #ddd;
-  transition: background-color 0.3s ease;
-}
+  transition: background-color 0.3s ease;}
 
 .card:hover, .lib-card:hover {
   transform: scale(1.02);
-  transition: transform 0.2s ease;
-}
+  transition: transform 0.2s ease;}
+
 .card-info {
   padding: 8px;
   font-size: 14px;
-  line-height: 1.4;
-}
-.card-info p {
-  margin: 4px 0;
-}
+  line-height: 1.4;}
+
+  .card-info p {
+  margin: 4px 0;}
+
 #previewContainer {
   display: flex;
   gap: 20px;
@@ -72,29 +64,26 @@ button:hover {
   padding: 20px;
   margin-top: 20px;
   border-radius: 10px;
-  color: black;
-}
+  color: black;}
 
 #previewImage img {
   max-width: 250px;
-  border-radius: 10px;
-}
+  border-radius: 10px;}
 
 #previewDetails {
-  flex: 1;
-}
+  flex: 1;}
 
 #previewDetails button {
-  margin-bottom: 10px;
-}
-#priceChart {
+  margin-bottom: 10px;}
+
+  #priceChart {
   height: 250px;
-  max-width: 500px;
-}
+  max-width: 500px;}
+
 #chartWrapper {
   margin-top: 20px;
-  max-width: 500px;
-}
+  max-width: 500px;}
+
 #loginScreen {
   height: 100vh;
   width: 100vw;
@@ -105,8 +94,7 @@ button:hover {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999;
-}
+  z-index: 999;}
 
 #googleLoginButton {
   font-size: 1.6rem;
@@ -116,34 +104,31 @@ button:hover {
   color: black;
   border: none;
   font-weight: bold;
-  cursor: pointer;
-}
+  cursor: pointer;}
 
 #googleLoginButton:hover {
   background-color: #eaeaea;
-  transform: scale(1.05);
-}
-#app {
+  transform: scale(1.05);}
+
+  #app {
   display: none; 
-  width: 100%;
-}
-#background,
-#background-overlay {
-  display: none;
-}
-body {
+  width: 100%;}
+
+  #background,
+  #background-overlay {
+  display: none;}
+
+  body {
   margin: 0;
   font-family: sans-serif;
   display: flex;
   height: 100vh;
   background-color: #111;
-  color: white;
-}
+  color: white;}
 
 #app {
   display: flex;
-  width: 100%;
-}
+  width: 100%;}
 
 #sidebar {
   width: 33.33%;
@@ -154,45 +139,38 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  border-right: 2px solid #444;
-}
+  border-right: 2px solid #444;}
 
 #main {
   flex: 1;
   padding: 20px;
-  overflow-y: auto;
-}
+  overflow-y: auto;}
 
 #userInfo img {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  margin-top: 5px;
-}
+  margin-top: 5px;}
 
 #filters {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 20px;
-}
+  margin-bottom: 20px;}
 
 input, select, button {
   padding: 10px;
   border: none;
   border-radius: 5px;
-  font-size: 1rem;
-}
+  font-size: 1rem;}
 
 button {
   cursor: pointer;
   background-color: white;
   color: black;
-  font-weight: bold;
-}
+  font-weight: bold;}
 
 #cardDisplay, #libraryDisplay {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 15px;
-}
+  gap: 15px;}

@@ -10,8 +10,7 @@ const firebaseConfig = {
   storageBucket: "paxtonslibrary.firebasestorage.app",
   messagingSenderId: "283184662620",
   appId: "1:283184662620:web:5a5ea818d63a0e9c6d3e99",
-  measurementId: "G-SMG3QHGCK0"
-};
+  measurementId: "G-SMG3QHGCK0"};
 
 const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -29,26 +28,22 @@ googleLoginButton.addEventListener('click', () => {
     console.log('User logged in: ', user);
     renderUserInfo(user);
   }).catch((error) => {
-    console.error('Error during Google sign-in:', error);
-  });
-});
+    console.error('Error during Google sign-in:', error);});});
 
 document.getElementById('logoutButton').addEventListener('click', () => {
   firebase.auth().signOut().then(() => {
     console.log("User signed out — now reloading the page.");
     window.location.reload();
   }).catch((error) => {
-    console.error("Sign-out error:", error);
-  });
-});
-function handleSignOutUI() {
+    console.error("Sign-out error:", error);});});
+
+    function handleSignOutUI() {
   document.getElementById("loginScreen").style.display = "flex";
   document.getElementById("app").style.display = "none";
   const userInfoContainer = document.getElementById('userInfo');
   userInfoContainer.innerHTML = "";
   document.getElementById('googleLoginButton').style.display = "inline-block";
-  document.getElementById('logoutButton').style.display = "none";
-}
+  document.getElementById('logoutButton').style.display = "none";}
 
 function renderUserInfo(user) {
   document.getElementById("loginScreen").style.display = "none";
@@ -62,14 +57,12 @@ function renderUserInfo(user) {
     userInfoContainer.innerHTML = `
       <h2>Welcome, ${user.displayName}</h2>
       <img src="${user.photoURL}" alt="User Avatar" />
-      <p>Email: ${user.email}</p>
-    `;
-  }
+      <p>Email: ${user.email}</p>`;}
+
   document.getElementById('googleLoginButton').style.display = "none";
   document.getElementById('logoutButton').style.display = "inline-block";
   saveUserToFirestore(user);
-  renderLibrary();
-}
+  renderLibrary();}
 
 function saveUserToFirestore(user) {
   const userRef = firestore.collection('users').doc(user.uid);
@@ -80,9 +73,7 @@ function saveUserToFirestore(user) {
   }).then(() => {
     console.log("User info saved to Firestore!");
   }).catch((error) => {
-    console.error("Error saving user data:", error);
-  });
-}
+    console.error("Error saving user data:", error);});}
 
 cardForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -90,15 +81,13 @@ cardForm.addEventListener("submit", async (e) => {
   if (!cardName) return;
 
   const res = await fetch(`https://api.pokemontcg.io/v2/cards?q=name:${cardName}`, {
-    headers: { "X-Api-Key": API_KEY },
-  });
+    headers: { "X-Api-Key": API_KEY },});
 
   const data = await res.json();
   const card = data.data[0];
   if (!card) {
     cardDisplay.innerHTML = `<p>No card found.</p>`;
-    return;
-  }
+    return;}
 
   const cardHtml = `
     <div class="card">
@@ -109,11 +98,9 @@ cardForm.addEventListener("submit", async (e) => {
         <p>Market Price: $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "N/A"}</p>
         <button onclick='saveCard(${JSON.stringify(card).replace(/'/g, "&apos;")})'>Save to Library</button>
       </div>
-    </div>
-  `;
+    </div>`;
 
-  cardDisplay.innerHTML = cardHtml;
-});
+  cardDisplay.innerHTML = cardHtml;});
 
 async function saveCard(card) {
   const user = firebase.auth().currentUser;
@@ -139,9 +126,7 @@ async function saveCard(card) {
     console.log("Card saved to Firestore with timestamp:", card.name);
     renderLibrary();
   } catch (err) {
-    console.error("Failed to save card:", err);
-  }
-}
+    console.error("Failed to save card:", err);}}
 
 async function deleteCard(cardId) {
   const user = firebase.auth().currentUser;
@@ -158,9 +143,7 @@ async function deleteCard(cardId) {
     console.log(`🗑️ Deleted card: ${cardId}`);
     renderLibrary();
   } catch (err) {
-    console.error("Failed to delete card:", err);
-  }
-}
+    console.error("Failed to delete card:", err);}}
 
 async function renderLibrary() {
 
@@ -172,8 +155,7 @@ const searchTerm = document.getElementById("searchInput").value.toLowerCase();
   const user = firebase.auth().currentUser;
   if (!user) {
     libraryDisplay.innerHTML = "<p>Please log in to view your library.</p>";
-    return;
-  }
+    return;}
 
   const cardsRef = firestore
     .collection("users")
@@ -184,8 +166,7 @@ const searchTerm = document.getElementById("searchInput").value.toLowerCase();
     const snapshot = await cardsRef.get();
     if (snapshot.empty) {
       libraryDisplay.innerHTML = "<p>No cards saved yet.</p>";
-      return;
-    }
+      return;}
 
     const cards = [];
     snapshot.forEach(doc => cards.push(doc.data()));
@@ -195,8 +176,7 @@ const searchTerm = document.getElementById("searchInput").value.toLowerCase();
       const matchType = !typeFilter || card.supertype === typeFilter;
       const matchSubtype = !subtypeFilter || (card.subtypes || []).includes(subtypeFilter);
       const matchSearch = !searchTerm || card.name.toLowerCase().includes(searchTerm);
-      return matchRarity && matchType && matchSubtype && matchSearch;
-    });
+      return matchRarity && matchType && matchSubtype && matchSearch;});
 
     const sortOption = document.getElementById("sortOptions").value;
 
@@ -223,9 +203,7 @@ filteredCards.sort((a, b) => {
     case "number":
       return parseInt(a.number) - parseInt(b.number);
     default:
-      return 0;
-  }
-});
+      return 0;}});
 
 libraryDisplay.innerHTML = filteredCards.map((card, index) => `
   <div class="lib-card" data-index="${index}">
@@ -236,15 +214,11 @@ libraryDisplay.innerHTML = filteredCards.map((card, index) => `
 document.querySelectorAll(".lib-card").forEach((el) => {
   el.addEventListener("click", () => {
     const index = el.getAttribute("data-index");
-    showPreview(filteredCards[index]);
-  });
-});      
+    showPreview(filteredCards[index]);});});      
 
   } catch (err) {
     console.error("Failed to load library:", err);
-    libraryDisplay.innerHTML = "<p>Error loading library.</p>";
-  }
-}
+    libraryDisplay.innerHTML = "<p>Error loading library.</p>";}}
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
@@ -253,9 +227,7 @@ firebase.auth().onAuthStateChanged((user) => {
     renderUserInfo(user);
   } else {
     document.getElementById("loginScreen").style.display = "flex";
-    document.getElementById("app").style.display = "none";
-  }
-});
+    document.getElementById("app").style.display = "none";}});
 
 function showPreview(card) {
   const previewContainer = document.getElementById("previewContainer");
@@ -271,8 +243,7 @@ function showPreview(card) {
     <p><strong>Type:</strong> ${card.supertype || "N/A"}</p>
     <p><strong>Subtype:</strong> ${(card.subtypes || []).join(", ") || "N/A"}</p>
     <p><strong>Card #:</strong> ${card.number || "N/A"}</p>
-    <p><strong>Market Price:</strong> $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "0.00"}</p>
-  `;
+    <p><strong>Market Price:</strong> $${card.cardmarket?.prices?.averageSellPrice?.toFixed(2) || "0.00"}</p>`;
 
   previewContainer.style.display = "flex";
 
@@ -282,22 +253,19 @@ function showPreview(card) {
     const prices = card.cardmarket?.prices;
     if (!prices) {
       console.warn("No price data found");
-      return;
-    }
+      return;}
 
     const labels = ["30 Days Ago", "7 Days Ago", "Yesterday", "Today"];
     const data = [
       prices.avg30 || null,
       prices.avg7 || null,
       prices.avg1 || null,
-      prices.trendPrice || prices.averageSellPrice || null
-    ];
+      prices.trendPrice || prices.averageSellPrice || null];
 
     const ctx = document.getElementById("priceChart").getContext("2d");
 
     if (window.priceChart instanceof Chart) {
-      window.priceChart.destroy();
-    }
+      window.priceChart.destroy();}
 
     window.priceChart = new Chart(ctx, {
       type: "line",
@@ -310,21 +278,14 @@ function showPreview(card) {
           borderWidth: 2,
           pointRadius: 4,
           fill: false,
-          tension: 0.3
-        }]
-      },
-      options: {
+          tension: 0.3}]},
+      
+        options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
           y: {
-            beginAtZero: false
-          }
-        }
-      }
-    });
-  }, 100);
-}
+            beginAtZero: false}}}});}, 100);}
 
 document.getElementById("closePreview").addEventListener("click", () => {
   document.getElementById("previewContainer").style.display = "none";
@@ -334,11 +295,12 @@ document.getElementById("sortOptions").addEventListener("change", renderLibrary)
 document.getElementById("rarityFilter").addEventListener("change", renderLibrary);
 document.getElementById("typeFilter").addEventListener("change", renderLibrary);
 document.getElementById("subtypeFilter").addEventListener("change", renderLibrary);
+
 document.getElementById("clearFiltersButton").addEventListener("click", () => {
   document.getElementById("rarityFilter").value = "";
   document.getElementById("typeFilter").value = "";
   document.getElementById("subtypeFilter").value = "";
   document.getElementById("sortOptions").value = "name-asc";
-  renderLibrary();
-});
-document.getElementById("searchInput").addEventListener("input", renderLibrary);
+  renderLibrary();});
+
+  document.getElementById("searchInput").addEventListener("input", renderLibrary);
