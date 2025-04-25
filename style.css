@@ -130,16 +130,17 @@ button:hover {
   display: flex;
   width: 100%;}
 
-#sidebar {
-  width: 33.33%;
-  max-width: 350px;
-  background-color: #1f1f1f;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border-right: 2px solid #444;}
+  #sidebar {
+    width: 33.33%;
+    max-width: 350px;
+    background-color: #1f1f1f;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border-right: 2px solid #444;
+  }  
 
 #main {
   flex: 1;
@@ -170,7 +171,14 @@ button {
   color: black;
   font-weight: bold;}
 
-#cardDisplay, #libraryDisplay {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 15px;}
+  #libraryDisplay {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+  }
+  
+  #cardDisplay {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }  
