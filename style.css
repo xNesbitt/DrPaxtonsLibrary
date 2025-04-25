@@ -128,8 +128,7 @@ button:hover {
 
 #app {
   display: flex;
-  width: 100%;
-  flex-direction: row-reverse;}
+  width: 100%;}
 
 #sidebar {
   width: 33.33%;
